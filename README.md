@@ -1,4 +1,4 @@
 # Robot-control
-Application Android pour contrôler un hexapod par bluetooth avec la carte SSC-32U.
+Android application to control a hexapod robot over bluetooth, using the ssc-32 lynxmotion card.
 
-Cette application est optimisée pour le robot AH2 de lynxmotion: http://www.lynxmotion.com/c-145-ah2.aspx
+This application is optimized for the AH2 robot of lynxmotion: http://www.lynxmotion.com/c-145-ah2.aspx

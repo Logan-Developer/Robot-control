@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 
-import fr.DangerousTraveler.robotcontrol.BluetoothUtils;
+import fr.DangerousTraveler.robotcontrol.utils.BluetoothUtils;
 import fr.DangerousTraveler.robotcontrol.ControlFragment;
-import fr.DangerousTraveler.robotcontrol.FilesUtils;
+import fr.DangerousTraveler.robotcontrol.utils.FilesUtils;
 import fr.DangerousTraveler.robotcontrol.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
     // reqûete pour donner la permission d'accéder au stockage externe
     private final static int REQUEST_READ_EXTERNAL_STORAGE = 3;
+
+    // requête pour lancer la reconnaissance vocale
+    private final static int REQUEST_START_SPEECH_RECOGNISATION = 4;
 
     // adapter permettant d'utiliser les fonctionnalités bluetooth
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -195,7 +198,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // reconnaissance vocale
-        if (RequestCode == 8) {
+        if (RequestCode == REQUEST_START_SPEECH_RECOGNISATION) {
+
             if (ResultCode == RESULT_OK && null != data) {
 
                 // récupérer le texte de la reconnaissance vocale
@@ -296,17 +300,19 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
-        // langue de la reconnaissance vocale
+        // configuration de la reconnaissance vocale
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speak something...");
+                R.string.speech_dialog_title);
         try {
-            startActivityForResult(intent, 8);
+            startActivityForResult(intent, REQUEST_START_SPEECH_RECOGNISATION);
+
+            // reconnaissance vocale non supportée par l'appareil
         } catch (ActivityNotFoundException a) {
             Toast.makeText(getApplicationContext(),
-                    "Sorry! Speech recognition is not supported in this device.",
+                    R.string.toast_error_seech_recognisation_not_supported,
                     Toast.LENGTH_SHORT).show();
         }
     }

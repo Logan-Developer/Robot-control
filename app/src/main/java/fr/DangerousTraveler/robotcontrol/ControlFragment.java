@@ -1,27 +1,21 @@
 package fr.DangerousTraveler.robotcontrol;
 
-import android.annotation.TargetApi;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import java.util.Locale;
 import java.util.Objects;
 
 import fr.DangerousTraveler.robotcontrol.activities.MainActivity;
+import fr.DangerousTraveler.robotcontrol.utils.BluetoothUtils;
+import fr.DangerousTraveler.robotcontrol.utils.FilesUtils;
 
 public class ControlFragment extends Fragment implements View.OnClickListener {
 
@@ -31,29 +25,29 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
 
     // position des servo moteurs lors de la marche avant
     //étape 1
-    private static final int SERVO1_POS1_FORWARD = 2500;
-    private static final int SERVO9_POS1_FORWARD = 2500;
-    private static final int SERVO21_POS1_FORWARD = 500;
+    private static int SERVO1_POS1_FORWARD = 2500;
+    private static int SERVO9_POS1_FORWARD = 2500;
+    private static int SERVO21_POS1_FORWARD = 500;
     //étape 2
-    private static final int SERVO0_POS2_FORWARD = 1050;
-    private static final int SERVO8_POS2_FORWARD = 1280;
-    private static final int SERVO20_POS2_FORWARD = 1750;
+    private static int SERVO0_POS2_FORWARD = 1050;
+    private static int SERVO8_POS2_FORWARD = 1280;
+    private static int SERVO20_POS2_FORWARD = 1750;
     //étape 3
-    private static final int SERVO9_POS3_FORWARD = 1140;
-    private static final int SERVO1_POS3_FORWARD = 1280;
-    private static final int SERVO21_POS3_FORWARD = 1430;
+    private static int SERVO9_POS3_FORWARD = 1140;
+    private static int SERVO1_POS3_FORWARD = 1280;
+    private static int SERVO21_POS3_FORWARD = 1430;
     //étape 4
-    private static final int SERVO5_POS4_FORWARD = 2500;
-    private static final int SERVO25_POS4_FORWARD = 500;
-    private static final int SERVO17_POS4_FORWARD = 500;
+    private static int SERVO5_POS4_FORWARD = 2500;
+    private static int SERVO25_POS4_FORWARD = 500;
+    private static int SERVO17_POS4_FORWARD = 500;
     //étape 5
-    private static final int SERVO4_POS5_FORWARD = 1100;
-    private static final int SERVO24_POS5_FORWARD = 1720;
-    private static final int SERVO16_POS5_FORWARD = 1650;
+    private static int SERVO4_POS5_FORWARD = 1100;
+    private static int SERVO24_POS5_FORWARD = 1720;
+    private static int SERVO16_POS5_FORWARD = 1650;
     //étape 6
-    private static final int SERVO5_POS6_FORWARD = 1240;
-    private static final int SERVO17_POS6_FORWARD = 1150;
-    private static final int SERVO25_POS6_FORWARD = 1150;
+    private static int SERVO5_POS6_FORWARD = 1240;
+    private static int SERVO17_POS6_FORWARD = 1150;
+    private static int SERVO25_POS6_FORWARD = 1150;
 
     // String contenant les positions d'étalonnage des servoMoteurs
     private static String calibrationServoPos;
@@ -128,6 +122,9 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
             btn_right.setImageResource(R.drawable.ic_right);
             btn_down.setImageResource(R.drawable.ic_down);
             btn_stop.setImageResource(R.drawable.ic_stop);
+
+            // stabiliser le mobile
+            stabilizeVehicle();
         }
 
         @Override
@@ -230,19 +227,96 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // méthode permettant de lance l'action demandée après la reconnaissance vocale
+    // méthode permettant de lancer l'action demandée après la reconnaissance vocale
     public static void startActionAfterSpeech() {
 
         switch (MainActivity.speechText) {
 
             case "avant":
+
+                // lancer la marche avant
                 new forward().execute();
 
                 break;
                 case "stop":
+
+                    // arrêter le mobile
                     new stop().execute();
 
                     break;
         }
+    }
+
+    // méthode permettant de stabiliser le véhicule
+    private static void stabilizeVehicle() {
+
+        // vérifier si le paramètre de stabilisation du véhicule est activé
+        if (MainActivity.sharedPreferences.getBoolean("switch_calibration_vehicle", true)) {
+
+            // position d'étalonnage des servoMoteurs
+            int[] servoCalibrationPos = FilesUtils.readServoPosFromTxt();
+
+            // remettre les positions par défault des servoMoteurs pour la marche avant
+            resetServoPosForward();
+
+            // remplacer les positions des servoMoteurs par les nouvelles afin de stabiliser le mobile
+            SERVO1_POS1_FORWARD = stabilizeServoPos(SERVO1_POS1_FORWARD, servoCalibrationPos[1]);
+            SERVO9_POS1_FORWARD = stabilizeServoPos(SERVO9_POS1_FORWARD, servoCalibrationPos[5]);
+            SERVO21_POS1_FORWARD = stabilizeServoPos(SERVO21_POS1_FORWARD, servoCalibrationPos[9]);
+            SERVO0_POS2_FORWARD = stabilizeServoPos(SERVO0_POS2_FORWARD, servoCalibrationPos[0]);
+            SERVO8_POS2_FORWARD = stabilizeServoPos(SERVO8_POS2_FORWARD, servoCalibrationPos[4]);
+            SERVO20_POS2_FORWARD = stabilizeServoPos(SERVO20_POS2_FORWARD, servoCalibrationPos[8]);
+            SERVO1_POS3_FORWARD = stabilizeServoPos(SERVO1_POS3_FORWARD, servoCalibrationPos[1]);
+            SERVO9_POS3_FORWARD = stabilizeServoPos(SERVO9_POS3_FORWARD, servoCalibrationPos[5]);
+            SERVO21_POS3_FORWARD = stabilizeServoPos(SERVO21_POS3_FORWARD, servoCalibrationPos[9]);
+            SERVO5_POS4_FORWARD = stabilizeServoPos(SERVO5_POS4_FORWARD, servoCalibrationPos[3]);
+            SERVO17_POS4_FORWARD = stabilizeServoPos(SERVO17_POS4_FORWARD, servoCalibrationPos[7]);
+            SERVO25_POS4_FORWARD = stabilizeServoPos(SERVO25_POS4_FORWARD, servoCalibrationPos[11]);
+            SERVO4_POS5_FORWARD = stabilizeServoPos(SERVO4_POS5_FORWARD, servoCalibrationPos[3]);
+            SERVO16_POS5_FORWARD = stabilizeServoPos(SERVO16_POS5_FORWARD, servoCalibrationPos[6]);
+            SERVO24_POS5_FORWARD = stabilizeServoPos(SERVO24_POS5_FORWARD, servoCalibrationPos[10]);
+            SERVO5_POS6_FORWARD = stabilizeServoPos(SERVO5_POS6_FORWARD, servoCalibrationPos[3]);
+            SERVO17_POS6_FORWARD = stabilizeServoPos(SERVO17_POS6_FORWARD, servoCalibrationPos[7]);
+            SERVO25_POS6_FORWARD = stabilizeServoPos(SERVO25_POS6_FORWARD, servoCalibrationPos[11]);
+
+        // sinon utiliser les valeurs par défault
+        } else
+            resetServoPosForward();
+    }
+
+    // méthode permettant de modifier les positions des servoMoteurs afin de stabiliser le mobile
+    private static int stabilizeServoPos(int idealPos, int calibrationPos) {
+
+        return idealPos - (1500 - calibrationPos);
+    }
+
+    // méhode permettant de rétablir les positions des servoMoteurs par défault pour la marche avant
+    private static void resetServoPosForward() {
+
+        // position des servo moteurs lors de la marche avant
+        //étape 1
+        SERVO1_POS1_FORWARD = 2500;
+        SERVO9_POS1_FORWARD = 2500;
+        SERVO21_POS1_FORWARD = 500;
+        //étape 2
+        SERVO0_POS2_FORWARD = 1050;
+        SERVO8_POS2_FORWARD = 1280;
+        SERVO20_POS2_FORWARD = 1750;
+        //étape 3
+        SERVO9_POS3_FORWARD = 1140;
+        SERVO1_POS3_FORWARD = 1280;
+        SERVO21_POS3_FORWARD = 1430;
+        //étape 4
+        SERVO5_POS4_FORWARD = 2500;
+        SERVO25_POS4_FORWARD = 500;
+        SERVO17_POS4_FORWARD = 500;
+        //étape 5
+        SERVO4_POS5_FORWARD = 1100;
+        SERVO24_POS5_FORWARD = 1720;
+        SERVO16_POS5_FORWARD = 1650;
+        //étape 6
+        SERVO5_POS6_FORWARD = 1240;
+        SERVO17_POS6_FORWARD = 1150;
+        SERVO25_POS6_FORWARD = 1150;
     }
 }

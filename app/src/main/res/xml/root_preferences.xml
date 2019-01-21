@@ -46,4 +46,12 @@
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/settings_calibration_title">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch_calibration_vehicle"
+            android:title="@string/settings_calibration_switch_title" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

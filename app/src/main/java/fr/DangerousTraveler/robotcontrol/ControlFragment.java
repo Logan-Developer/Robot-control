@@ -25,29 +25,56 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
 
     // position des servo moteurs lors de la marche avant
     //étape 1
-    private static int SERVO1_POS1_FORWARD = 2500;
-    private static int SERVO9_POS1_FORWARD = 2500;
-    private static int SERVO21_POS1_FORWARD = 500;
+    private static int SERVO25_POS1_FORWARD = 500;
+    private static int SERVO17_POS1_FORWARD = 500;
+    private static int SERVO5_POS1_FORWARD = 2500;
     //étape 2
-    private static int SERVO0_POS2_FORWARD = 1050;
-    private static int SERVO8_POS2_FORWARD = 1280;
-    private static int SERVO20_POS2_FORWARD = 1750;
+    private static int SERVO24_POS2_FORWARD = 1165;
+    private static int SERVO16_POS2_FORWARD = 1110;
+    private static int SERVO4_POS2_FORWARD = 1770;
     //étape 3
-    private static int SERVO9_POS3_FORWARD = 1140;
-    private static int SERVO1_POS3_FORWARD = 1280;
-    private static int SERVO21_POS3_FORWARD = 1430;
+    private static int SERVO25_POS3_FORWARD = 1300;
+    private static int SERVO17_POS3_FORWARD = 1361;
+    private static int SERVO5_POS3_FORWARD = 1500;
     //étape 4
-    private static int SERVO5_POS4_FORWARD = 2500;
-    private static int SERVO25_POS4_FORWARD = 500;
-    private static int SERVO17_POS4_FORWARD = 500;
+    private static int SERVO9_POS4_FORWARD = 2500;
+    private static int SERVO21_POS4_FORWARD = 500;
+    private static int SERVO1_POS4_FORWARD = 2500;
     //étape 5
-    private static int SERVO4_POS5_FORWARD = 1100;
-    private static int SERVO24_POS5_FORWARD = 1720;
-    private static int SERVO16_POS5_FORWARD = 1650;
+    private static int SERVO8_POS5_FORWARD = 1930;
+    private static int SERVO20_POS5_FORWARD = 1179;
+    private static int SERVO0_POS5_FORWARD = 1830;
     //étape 6
-    private static int SERVO5_POS6_FORWARD = 1240;
-    private static int SERVO17_POS6_FORWARD = 1150;
-    private static int SERVO25_POS6_FORWARD = 1150;
+    private static int SERVO9_POS6_FORWARD = 1421;
+    private static int SERVO21_POS6_FORWARD = 1566;
+    private static int SERVO1_POS6_FORWARD = 1780;
+
+    // position des servo moteurs lors de la rotation à droite
+    //étape 1
+    private static int SERVO17_POS1_TURN_RIGHT = 500;
+    private static int SERVO25_POS1_TURN_RIGHT = 500;
+    private static int SERVO5_POS1_TURN_RIGHT = 2500;
+    //étape 2
+    private static int SERVO16_POS2_TURN_RIGHT = 1060;
+    private static int SERVO24_POS2_TURN_RIGHT = 1160;
+    private static int SERVO4_POS2_TURN_RIGHT = 1030;
+    //étape 3
+    private static int SERVO17_POS3_TURN_RIGHT = 1150;
+    private static int SERVO25_POS3_TURN_RIGHT = 1100;
+    private static int SERVO5_POS3_TURN_RIGHT = 1450;
+    //étape 4
+    private static int SERVO1_POS4_TURN_RIGHT = 2500;
+    private static int SERVO9_POS4_TURN_RIGHT = 2500;
+    private static int SERVO21_POS4_TURN_RIGHT = 500;
+    //étape 5
+    private static int SERVO0_POS5_TURN_RIGHT = 1000;
+    private static int SERVO8_POS5_TURN_RIGHT = 1100;
+    private static int SERVO20_POS5_TURN_RIGHT = 1050;
+    //étape 6
+    private static int SERVO1_POS6_TURN_RIGHT = 1400;
+    private static int SERVO9_POS6_TURN_RIGHT = 1400;
+    private static int SERVO21_POS6_TURN_RIGHT = 1450;
+
 
     // String contenant les positions d'étalonnage des servoMoteurs
     private static String calibrationServoPos;
@@ -84,13 +111,24 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
             // faire avancer le robot
             case R.id.btn_up:
 
-             // vérifier que l'on est connecté au robot
-             if (MainActivity.bluetoothConnected) {
+                // vérifier que l'on est connecté au robot
+                if (MainActivity.bluetoothConnected) {
 
-                 // faire avancer le robot
-                 new forward().execute();
-             }
-             break;
+                    // faire avancer le robot
+                    new forward().execute();
+                }
+                break;
+
+            // faire avancer le robot
+            case R.id.btn_right:
+
+                // vérifier que l'on est connecté au robot
+                if (MainActivity.bluetoothConnected) {
+
+                    // faire avancer le robot
+                    new turnRight().execute();
+                }
+                break;
 
             // arrêter le robot
             case R.id.btn_stop:
@@ -131,7 +169,7 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
         protected Void doInBackground(Void... voids) {
 
             while (command.equals("forward")) {
-                String data = "#1P" + SERVO1_POS1_FORWARD + "#9P" + SERVO9_POS1_FORWARD + "#21P" + SERVO21_POS1_FORWARD + "T" + travellingTime + "\r";
+                String data = "#5P" + SERVO5_POS1_FORWARD + "#17P" + SERVO17_POS1_FORWARD + "#25P" + SERVO25_POS1_FORWARD + "T" + travellingTime + "\r";
                 // envoyer les positions des servoMoteurs par bluetooth
                 BluetoothUtils.sendDataViaBluetooth(data);
 
@@ -141,7 +179,7 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
 
-                data = "#0P" + SERVO0_POS2_FORWARD + "#8P" + SERVO8_POS2_FORWARD + "#20P" + SERVO20_POS2_FORWARD + "T" + travellingTime + "\r";
+                data = "#4P" + SERVO4_POS2_FORWARD + "#16P" + SERVO16_POS2_FORWARD + "#24P" + SERVO24_POS2_FORWARD + "T" + travellingTime + "\r";
                 // envoyer les positions des servoMoteurs par bluetooth
                 BluetoothUtils.sendDataViaBluetooth(data);
 
@@ -151,7 +189,7 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
 
-                data = "#1P" + SERVO1_POS3_FORWARD + "#9P" + SERVO9_POS3_FORWARD + "#21P" + SERVO21_POS3_FORWARD + "T" + travellingTime + "\r";
+                data = "#5P" + SERVO5_POS3_FORWARD + "#17P" + SERVO17_POS3_FORWARD + "#25P" + SERVO25_POS3_FORWARD + "T" + travellingTime + "\r";
                 // envoyer les positions des servoMoteurs par bluetooth
                 BluetoothUtils.sendDataViaBluetooth(data);
 
@@ -161,7 +199,7 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
 
-                data = "#5P" + SERVO5_POS4_FORWARD + "#17P" + SERVO17_POS4_FORWARD + "#25P" + SERVO25_POS4_FORWARD + "T" + travellingTime + "\r";
+                data = "#1P" + SERVO1_POS4_FORWARD + "#9P" + SERVO9_POS4_FORWARD + "#21P" + SERVO21_POS4_FORWARD + "T" + travellingTime + "\r";
                 // envoyer les positions des servoMoteurs par bluetooth
                 BluetoothUtils.sendDataViaBluetooth(data);
 
@@ -171,7 +209,7 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
 
-                data = "#4P" + SERVO4_POS5_FORWARD + "#16P" + SERVO16_POS5_FORWARD + "#24P" + SERVO24_POS5_FORWARD + "T" + travellingTime + "\r";
+                data = "#0P" + SERVO0_POS5_FORWARD + "#8P" + SERVO8_POS5_FORWARD + "#20P" + SERVO20_POS5_FORWARD + "T" + travellingTime + "\r";
                 // envoyer les positions des servoMoteurs par bluetooth
                 BluetoothUtils.sendDataViaBluetooth(data);
 
@@ -181,7 +219,7 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
 
-                data = "#5P" + SERVO5_POS6_FORWARD + "#17P" + SERVO17_POS6_FORWARD + "#25P" + SERVO25_POS6_FORWARD + "T" + travellingTime + "\r";
+                data = "#1P" + SERVO1_POS6_FORWARD + "#9P" + SERVO9_POS6_FORWARD + "#21P" + SERVO21_POS6_FORWARD + "T" + travellingTime + "\r";
 
                 // envoyer les positions des servoMoteurs par bluetooth
                 BluetoothUtils.sendDataViaBluetooth(data);
@@ -204,6 +242,107 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
             return null;
         }
     }
+
+    // inner class permettant de faire la rotation à droite du robot
+    public static class turnRight extends AsyncTask<Void, Void, Void> {
+
+        // récupérer les valeurs de temps
+        String travellingTime = MainActivity.sharedPreferences.getString("settings_travelling_time", "2000");
+        long timeBetweenSteps = Long.parseLong(Objects.requireNonNull(MainActivity.sharedPreferences.getString("settings_time_steps", "2000")));
+
+        @Override
+        protected void onPreExecute() {
+
+            command = "turnRight";
+
+            btn_up.setImageResource(R.drawable.ic_up);
+            btn_left.setImageResource(R.drawable.ic_left);
+            btn_right.setImageResource(R.drawable.ic_right_enabled);
+            btn_down.setImageResource(R.drawable.ic_down);
+            btn_stop.setImageResource(R.drawable.ic_stop);
+
+            // stabiliser le mobile
+            stabilizeVehicle();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            while (command.equals("turnRight")) {
+                String data = "#17P" + SERVO17_POS1_TURN_RIGHT + "#25P" + SERVO25_POS1_TURN_RIGHT + "#5P" + SERVO5_POS1_TURN_RIGHT + "T" + travellingTime + "\r";
+                // envoyer les positions des servoMoteurs par bluetooth
+                BluetoothUtils.sendDataViaBluetooth(data);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                data = "#16P" + SERVO16_POS2_TURN_RIGHT + "#24P" + SERVO24_POS2_TURN_RIGHT + "#4P" + SERVO4_POS2_TURN_RIGHT + "T" + travellingTime + "\r";
+                // envoyer les positions des servoMoteurs par bluetooth
+                BluetoothUtils.sendDataViaBluetooth(data);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                data = "#17P" + SERVO17_POS3_TURN_RIGHT + "#25P" + SERVO25_POS3_TURN_RIGHT + "#5P" + SERVO5_POS3_TURN_RIGHT + "T" + travellingTime + "\r";
+                // envoyer les positions des servoMoteurs par bluetooth
+                BluetoothUtils.sendDataViaBluetooth(data);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                data = "#1P" + SERVO1_POS4_TURN_RIGHT + "#9P" + SERVO9_POS4_TURN_RIGHT + "#21P" + SERVO21_POS4_TURN_RIGHT + "T" + travellingTime + "\r";
+                // envoyer les positions des servoMoteurs par bluetooth
+                BluetoothUtils.sendDataViaBluetooth(data);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                data = "#0P" + SERVO0_POS5_TURN_RIGHT + "#8P" + SERVO8_POS5_TURN_RIGHT + "#20P" + SERVO20_POS5_TURN_RIGHT + "T" + travellingTime + "\r";
+                // envoyer les positions des servoMoteurs par bluetooth
+                BluetoothUtils.sendDataViaBluetooth(data);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                data = "#1P" + SERVO1_POS6_TURN_RIGHT + "#9P" + SERVO9_POS6_TURN_RIGHT + "#21P" + SERVO21_POS6_TURN_RIGHT + "T" + travellingTime + "\r";
+
+                // envoyer les positions des servoMoteurs par bluetooth
+                BluetoothUtils.sendDataViaBluetooth(data);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // remettre les servoMoteurs à leur position d'étalonnage
+                BluetoothUtils.sendDataViaBluetooth(calibrationServoPos);
+
+                try {
+                    Thread.sleep(timeBetweenSteps);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
+
 
     // inner class permettant d'arrêter le robot
     public static class stop extends AsyncTask<Void, Void, Void> {
@@ -238,12 +377,12 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                 new forward().execute();
 
                 break;
-                case "stop":
+            case "stop":
 
-                    // arrêter le mobile
-                    new stop().execute();
+                // arrêter le mobile
+                new stop().execute();
 
-                    break;
+                break;
         }
     }
 
@@ -256,33 +395,78 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
             // position d'étalonnage des servoMoteurs
             int[] servoCalibrationPos = FilesUtils.readServoPosFromTxt();
 
-            // remettre les positions par défault des servoMoteurs pour la marche avant
-            resetServoPosForward();
+            // vérifier l'ordre donné au mobile
+            switch (command) {
 
-            // remplacer les positions des servoMoteurs par les nouvelles afin de stabiliser le mobile
-            SERVO1_POS1_FORWARD = stabilizeServoPos(SERVO1_POS1_FORWARD, servoCalibrationPos[1]);
-            SERVO9_POS1_FORWARD = stabilizeServoPos(SERVO9_POS1_FORWARD, servoCalibrationPos[5]);
-            SERVO21_POS1_FORWARD = stabilizeServoPos(SERVO21_POS1_FORWARD, servoCalibrationPos[9]);
-            SERVO0_POS2_FORWARD = stabilizeServoPos(SERVO0_POS2_FORWARD, servoCalibrationPos[0]);
-            SERVO8_POS2_FORWARD = stabilizeServoPos(SERVO8_POS2_FORWARD, servoCalibrationPos[4]);
-            SERVO20_POS2_FORWARD = stabilizeServoPos(SERVO20_POS2_FORWARD, servoCalibrationPos[8]);
-            SERVO1_POS3_FORWARD = stabilizeServoPos(SERVO1_POS3_FORWARD, servoCalibrationPos[1]);
-            SERVO9_POS3_FORWARD = stabilizeServoPos(SERVO9_POS3_FORWARD, servoCalibrationPos[5]);
-            SERVO21_POS3_FORWARD = stabilizeServoPos(SERVO21_POS3_FORWARD, servoCalibrationPos[9]);
-            SERVO5_POS4_FORWARD = stabilizeServoPos(SERVO5_POS4_FORWARD, servoCalibrationPos[3]);
-            SERVO17_POS4_FORWARD = stabilizeServoPos(SERVO17_POS4_FORWARD, servoCalibrationPos[7]);
-            SERVO25_POS4_FORWARD = stabilizeServoPos(SERVO25_POS4_FORWARD, servoCalibrationPos[11]);
-            SERVO4_POS5_FORWARD = stabilizeServoPos(SERVO4_POS5_FORWARD, servoCalibrationPos[3]);
-            SERVO16_POS5_FORWARD = stabilizeServoPos(SERVO16_POS5_FORWARD, servoCalibrationPos[6]);
-            SERVO24_POS5_FORWARD = stabilizeServoPos(SERVO24_POS5_FORWARD, servoCalibrationPos[10]);
-            SERVO5_POS6_FORWARD = stabilizeServoPos(SERVO5_POS6_FORWARD, servoCalibrationPos[3]);
-            SERVO17_POS6_FORWARD = stabilizeServoPos(SERVO17_POS6_FORWARD, servoCalibrationPos[7]);
-            SERVO25_POS6_FORWARD = stabilizeServoPos(SERVO25_POS6_FORWARD, servoCalibrationPos[11]);
+                // marche avant
+                case "forward":
 
-        // sinon utiliser les valeurs par défault
+                    // remettre les positions par défault des servoMoteurs pour la marche avant
+                    resetServoPosForward();
+
+                    // remplacer les positions des servoMoteurs par les nouvelles afin de stabiliser le mobile
+                    SERVO5_POS1_FORWARD = stabilizeServoPos(SERVO5_POS1_FORWARD, servoCalibrationPos[3]);
+                    SERVO17_POS1_FORWARD = stabilizeServoPos(SERVO17_POS1_FORWARD, servoCalibrationPos[7]);
+                    SERVO25_POS1_FORWARD = stabilizeServoPos(SERVO25_POS1_FORWARD, servoCalibrationPos[11]);
+                    SERVO4_POS2_FORWARD = stabilizeServoPos(SERVO4_POS2_FORWARD, servoCalibrationPos[3]);
+                    SERVO16_POS2_FORWARD = stabilizeServoPos(SERVO16_POS2_FORWARD, servoCalibrationPos[6]);
+                    SERVO24_POS2_FORWARD = stabilizeServoPos(SERVO24_POS2_FORWARD, servoCalibrationPos[10]);
+                    SERVO5_POS3_FORWARD = stabilizeServoPos(SERVO5_POS3_FORWARD, servoCalibrationPos[3]);
+                    SERVO17_POS3_FORWARD = stabilizeServoPos(SERVO17_POS3_FORWARD, servoCalibrationPos[7]);
+                    SERVO25_POS3_FORWARD = stabilizeServoPos(SERVO25_POS3_FORWARD, servoCalibrationPos[11]);
+                    SERVO1_POS4_FORWARD = stabilizeServoPos(SERVO1_POS4_FORWARD, servoCalibrationPos[1]);
+                    SERVO9_POS4_FORWARD = stabilizeServoPos(SERVO9_POS4_FORWARD, servoCalibrationPos[5]);
+                    SERVO21_POS4_FORWARD = stabilizeServoPos(SERVO21_POS4_FORWARD, servoCalibrationPos[9]);
+                    SERVO0_POS5_FORWARD = stabilizeServoPos(SERVO0_POS5_FORWARD, servoCalibrationPos[0]);
+                    SERVO8_POS5_FORWARD = stabilizeServoPos(SERVO8_POS5_FORWARD, servoCalibrationPos[4]);
+                    SERVO20_POS5_FORWARD = stabilizeServoPos(SERVO20_POS5_FORWARD, servoCalibrationPos[8]);
+                    SERVO1_POS6_FORWARD = stabilizeServoPos(SERVO1_POS6_FORWARD, servoCalibrationPos[1]);
+                    SERVO9_POS6_FORWARD = stabilizeServoPos(SERVO9_POS6_FORWARD, servoCalibrationPos[5]);
+                    SERVO21_POS6_FORWARD = stabilizeServoPos(SERVO21_POS6_FORWARD, servoCalibrationPos[9]);
+                    break;
+
+                // rotation à droite
+                case "turnRight":
+                    // remettre les positions par défault des servoMoteurs pour la rotation à droite
+                    resetServoPosTurnRight();
+
+                    // remplacer les positions des servoMoteurs par les nouvelles afin de stabiliser le mobile
+                    SERVO5_POS1_TURN_RIGHT = stabilizeServoPos(SERVO5_POS1_TURN_RIGHT, servoCalibrationPos[3]);
+                    SERVO17_POS1_TURN_RIGHT = stabilizeServoPos(SERVO17_POS1_TURN_RIGHT, servoCalibrationPos[7]);
+                    SERVO25_POS1_TURN_RIGHT = stabilizeServoPos(SERVO25_POS1_TURN_RIGHT, servoCalibrationPos[11]);
+                    SERVO4_POS2_TURN_RIGHT = stabilizeServoPos(SERVO4_POS2_TURN_RIGHT, servoCalibrationPos[3]);
+                    SERVO16_POS2_TURN_RIGHT = stabilizeServoPos(SERVO16_POS2_TURN_RIGHT, servoCalibrationPos[6]);
+                    SERVO24_POS2_TURN_RIGHT = stabilizeServoPos(SERVO24_POS2_TURN_RIGHT, servoCalibrationPos[10]);
+                    SERVO5_POS3_TURN_RIGHT = stabilizeServoPos(SERVO5_POS3_TURN_RIGHT, servoCalibrationPos[3]);
+                    SERVO17_POS3_TURN_RIGHT = stabilizeServoPos(SERVO17_POS3_TURN_RIGHT, servoCalibrationPos[7]);
+                    SERVO25_POS3_TURN_RIGHT = stabilizeServoPos(SERVO25_POS3_TURN_RIGHT, servoCalibrationPos[11]);
+                    SERVO1_POS4_TURN_RIGHT = stabilizeServoPos(SERVO1_POS4_TURN_RIGHT, servoCalibrationPos[1]);
+                    SERVO9_POS4_TURN_RIGHT = stabilizeServoPos(SERVO9_POS4_TURN_RIGHT, servoCalibrationPos[5]);
+                    SERVO21_POS4_TURN_RIGHT = stabilizeServoPos(SERVO21_POS4_TURN_RIGHT, servoCalibrationPos[9]);
+                    SERVO0_POS5_TURN_RIGHT = stabilizeServoPos(SERVO0_POS5_TURN_RIGHT, servoCalibrationPos[0]);
+                    SERVO8_POS5_TURN_RIGHT = stabilizeServoPos(SERVO8_POS5_TURN_RIGHT, servoCalibrationPos[4]);
+                    SERVO20_POS5_TURN_RIGHT = stabilizeServoPos(SERVO20_POS5_TURN_RIGHT, servoCalibrationPos[8]);
+                    SERVO1_POS6_TURN_RIGHT = stabilizeServoPos(SERVO1_POS6_TURN_RIGHT, servoCalibrationPos[1]);
+                    SERVO9_POS6_TURN_RIGHT = stabilizeServoPos(SERVO9_POS6_TURN_RIGHT, servoCalibrationPos[5]);
+                    SERVO21_POS6_TURN_RIGHT = stabilizeServoPos(SERVO21_POS6_TURN_RIGHT, servoCalibrationPos[9]);
+                    break;
+            }
+            // sinon utiliser les valeurs par défault
         } else
-            resetServoPosForward();
+
+            // vérifier l'ordre donné au mobile
+            switch (command) {
+
+                case "forward":
+                    resetServoPosForward();
+                    break;
+
+                case "turnRight":
+                    resetServoPosTurnRight();
+                    break;
+            }
     }
+
 
     // méthode permettant de modifier les positions des servoMoteurs afin de stabiliser le mobile
     private static int stabilizeServoPos(int idealPos, int calibrationPos) {
@@ -295,28 +479,58 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
 
         // position des servo moteurs lors de la marche avant
         //étape 1
-        SERVO1_POS1_FORWARD = 2500;
-        SERVO9_POS1_FORWARD = 2500;
-        SERVO21_POS1_FORWARD = 500;
+        SERVO25_POS1_FORWARD = 500;
+        SERVO17_POS1_FORWARD = 500;
+        SERVO5_POS1_FORWARD = 2500;
         //étape 2
-        SERVO0_POS2_FORWARD = 1050;
-        SERVO8_POS2_FORWARD = 1280;
-        SERVO20_POS2_FORWARD = 1750;
+        SERVO24_POS2_FORWARD = 1165;
+        SERVO16_POS2_FORWARD = 1110;
+        SERVO4_POS2_FORWARD = 1770;
         //étape 3
-        SERVO9_POS3_FORWARD = 1140;
-        SERVO1_POS3_FORWARD = 1280;
-        SERVO21_POS3_FORWARD = 1430;
+        SERVO25_POS3_FORWARD = 1300;
+        SERVO17_POS3_FORWARD = 1361;
+        SERVO5_POS3_FORWARD = 1500;
         //étape 4
-        SERVO5_POS4_FORWARD = 2500;
-        SERVO25_POS4_FORWARD = 500;
-        SERVO17_POS4_FORWARD = 500;
+        SERVO9_POS4_FORWARD = 2500;
+        SERVO21_POS4_FORWARD = 500;
+        SERVO1_POS4_FORWARD = 2500;
         //étape 5
-        SERVO4_POS5_FORWARD = 1100;
-        SERVO24_POS5_FORWARD = 1720;
-        SERVO16_POS5_FORWARD = 1650;
+        SERVO8_POS5_FORWARD = 1930;
+        SERVO20_POS5_FORWARD = 1179;
+        SERVO0_POS5_FORWARD = 1830;
         //étape 6
-        SERVO5_POS6_FORWARD = 1240;
-        SERVO17_POS6_FORWARD = 1150;
-        SERVO25_POS6_FORWARD = 1150;
+        SERVO9_POS6_FORWARD = 1421;
+        SERVO21_POS6_FORWARD = 1566;
+        SERVO1_POS6_FORWARD = 1780;
+    }
+
+    // méhode permettant de rétablir les positions des servoMoteurs par défault pour la rotation à droite
+    private static void resetServoPosTurnRight() {
+
+        // position des servo moteurs lors de la rotation à droite
+        //étape 1
+        SERVO17_POS1_TURN_RIGHT = 500;
+        SERVO25_POS1_TURN_RIGHT = 500;
+        SERVO5_POS1_TURN_RIGHT = 2500;
+        //étape 2
+        SERVO16_POS2_TURN_RIGHT = 1060;
+        SERVO24_POS2_TURN_RIGHT = 1160;
+        SERVO4_POS2_TURN_RIGHT = 1030;
+        //étape 3
+        SERVO17_POS3_TURN_RIGHT = 1150;
+        SERVO25_POS3_TURN_RIGHT = 1100;
+        SERVO5_POS3_TURN_RIGHT = 1450;
+        //étape 4
+        SERVO1_POS4_TURN_RIGHT = 2500;
+        SERVO9_POS4_TURN_RIGHT = 2500;
+        SERVO21_POS4_TURN_RIGHT = 500;
+        //étape 5
+        SERVO0_POS5_TURN_RIGHT = 1000;
+        SERVO8_POS5_TURN_RIGHT = 1100;
+        SERVO20_POS5_TURN_RIGHT = 1050;
+        //étape 6
+        SERVO1_POS6_TURN_RIGHT = 1400;
+        SERVO9_POS6_TURN_RIGHT = 1400;
+        SERVO21_POS6_TURN_RIGHT = 1450;
     }
 }

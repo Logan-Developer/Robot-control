@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Paramètres</string>
+    <string name="settings_custom_file_path_title">Emplacement de fichier personnalisé</string>
+    <string name="settings_file_name_title">Nom du fichier d\'étalonnage</string>
+    <string name="settings_files_category">Fichier d\'étalonnage</string>
+    <string name="settings_time_preferences">Temps</string>
+    <string name="settings_travelling_time_title">Temps de déplacement</string>
+    <string name="use_custom_file_path_title">Utiliser un emplacement de fichier personnalisé ?</string>
+    <string name="settings_calibration_switch_title">Stabiliser le véhicule ?</string>
+    <string name="settings_calibration_title">Stabilisation du véhicule</string>
+</resources>

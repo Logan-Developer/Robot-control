@@ -10,14 +10,12 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -26,19 +24,14 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
-import fr.DangerousTraveler.robotcontrol.BluetoothUtils;
 import fr.DangerousTraveler.robotcontrol.ControlFragment;
-import fr.DangerousTraveler.robotcontrol.FilesUtils;
+import fr.DangerousTraveler.robotcontrol.utils.BluetoothUtils;
+import fr.DangerousTraveler.robotcontrol.utils.FilesUtils;
 import fr.DangerousTraveler.robotcontrol.R;
 
 public class MainActivity extends AppCompatActivity {
-
-    // texte de la reconnaissance vocale
-    public static String speechText;
 
     // adresse MAC de l'appareil auquel se connecter
     private String address;
@@ -101,15 +94,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         return true;
 
-                    case R.id.speech:
-
-                        if (bluetoothConnected) {
-
-                            // démarrer la reconnaissance vocale
-                            startSpeechRecognisation();
-                        }
-                        return true;
-
                     default: return false;
                 }
             }
@@ -167,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
 
             fabConnectBt.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
             fabConnectBt.setImageResource(R.drawable.ic_bt_disabled);
+
+            // désactiver le joystick
+            ControlFragment.joystickView.setEnabled(false);
         }
     }
 
@@ -191,20 +178,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // établir la connexion bluetooth
                 new connectBluetooth().execute();
-            }
-        }
-
-        // reconnaissance vocale
-        if (RequestCode == 8) {
-            if (ResultCode == RESULT_OK && null != data) {
-
-                // récupérer le texte de la reconnaissance vocale
-                ArrayList<String> result = data
-                        .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                speechText = result.get(0);
-
-                // démarrer l'action souhaitée
-                ControlFragment.startActionAfterSpeech();
             }
         }
     }
@@ -270,6 +243,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // remettre les servoMoteurs à leur position d'étalonnage
                 BluetoothUtils.sendDataViaBluetooth(calibrationServoPos);
+
+                // activer le joystick
+                ControlFragment.joystickView.setEnabled(true);
             }
         }
 
@@ -288,26 +264,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
 
             }
-        }
-    }
-
-    //démarrer la reconnaissance vocale
-    public void startSpeechRecognisation() {
-
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-        // langue de la reconnaissance vocale
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                "Speak something...");
-        try {
-            startActivityForResult(intent, 8);
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),
-                    "Sorry! Speech recognition is not supported in this device.",
-                    Toast.LENGTH_SHORT).show();
         }
     }
 }

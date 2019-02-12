@@ -10,35 +10,29 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
 import java.util.UUID;
 
-import fr.DangerousTraveler.robotcontrol.utils.BluetoothUtils;
 import fr.DangerousTraveler.robotcontrol.ControlFragment;
+import fr.DangerousTraveler.robotcontrol.utils.BluetoothUtils;
 import fr.DangerousTraveler.robotcontrol.utils.FilesUtils;
 import fr.DangerousTraveler.robotcontrol.R;
 
 public class MainActivity extends AppCompatActivity {
-
-    // texte de la reconnaissance vocale
-    public static String speechText;
 
     // adresse MAC de l'appareil auquel se connecter
     private String address;
@@ -57,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
     // reqûete pour donner la permission d'accéder au stockage externe
     private final static int REQUEST_READ_EXTERNAL_STORAGE = 3;
 
-    // requête pour lancer la reconnaissance vocale
-    private final static int REQUEST_START_SPEECH_RECOGNISATION = 4;
-
     // adapter permettant d'utiliser les fonctionnalités bluetooth
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     public static BluetoothSocket bluetoothSocket = null;
@@ -70,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private static final UUID btUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     private FloatingActionButton fabConnectBt;
+
+    public static boolean joystickControlModeEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
             externalStrorageReadAccess();
         }
 
-        // afficher le menu sur la bottomAppBar
+        fabConnectBt = findViewById(R.id.fab_connect_bt);
+
+        // afficher le menu sur l'appBar
         appBar = findViewById(R.id.bottomAppBar);
         appBar.inflateMenu(R.menu.main_menu);
         appBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -104,21 +99,24 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         return true;
 
-                    case R.id.speech:
-
-                        if (bluetoothConnected) {
-
-                            // démarrer la reconnaissance vocale
-                            startSpeechRecognisation();
-                        }
-                        return true;
-
                     default: return false;
                 }
             }
         });
 
-        fabConnectBt = findViewById(R.id.fab_connect_bt);
+        // gérer l'ouverture et la fermeture du backdrop
+        appBar.setNavigationOnClickListener(new NavigationIconClickListener(
+                this,
+                findViewById(R.id.fragment),
+                new AccelerateDecelerateInterpolator(),
+                this.getResources().getDrawable(R.drawable.ic_camera),   // icône d'ouverture du backdrop
+                this.getResources().getDrawable(R.drawable.ic_close)));  // icône de fermeture du backdrop
+
+        // afficher la shape arrondie si l'API est de 23 ou +
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            findViewById(R.id.fragment).setBackground(getApplicationContext().getDrawable(R.drawable.backdrop_shape));
+        }
     }
 
     // méthode permettant d'activer le bluetooth s'il est désactivé
@@ -170,6 +168,12 @@ public class MainActivity extends AppCompatActivity {
 
             fabConnectBt.setBackgroundTintList(getResources().getColorStateList(R.color.colorAccent));
             fabConnectBt.setImageResource(R.drawable.ic_bt_disabled);
+
+            // désactiver le joystick
+            ControlFragment.joystickView.setEnabled(false);
+            ControlFragment.joystickView.setBackgroundColor(getResources().getColor(R.color.colorJoystickBackgroundDisabled));
+            ControlFragment.joystickView.setButtonColor(R.color.colorJoystickButtonDisabled);
+            joystickControlModeEnabled = false;
         }
     }
 
@@ -194,21 +198,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // établir la connexion bluetooth
                 new connectBluetooth().execute();
-            }
-        }
-
-        // reconnaissance vocale
-        if (RequestCode == REQUEST_START_SPEECH_RECOGNISATION) {
-
-            if (ResultCode == RESULT_OK && null != data) {
-
-                // récupérer le texte de la reconnaissance vocale
-                ArrayList<String> result = data
-                        .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                speechText = result.get(0);
-
-                // démarrer l'action souhaitée
-                ControlFragment.startActionAfterSpeech();
             }
         }
     }
@@ -274,6 +263,12 @@ public class MainActivity extends AppCompatActivity {
 
                 // remettre les servoMoteurs à leur position d'étalonnage
                 BluetoothUtils.sendDataViaBluetooth(calibrationServoPos);
+
+                // activer le joystick
+                ControlFragment.joystickView.setEnabled(true);
+                ControlFragment.joystickView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                ControlFragment.joystickView.setButtonColor(R.color.colorAccent);
+                joystickControlModeEnabled = true;
             }
         }
 
@@ -292,28 +287,6 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
 
             }
-        }
-    }
-
-    //démarrer la reconnaissance vocale
-    public void startSpeechRecognisation() {
-
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-
-        // configuration de la reconnaissance vocale
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                R.string.speech_dialog_title);
-        try {
-            startActivityForResult(intent, REQUEST_START_SPEECH_RECOGNISATION);
-
-            // reconnaissance vocale non supportée par l'appareil
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),
-                    R.string.toast_error_seech_recognisation_not_supported,
-                    Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ControlFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -10,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="150dp">
+        android:layout_marginTop="10dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_up"
@@ -22,45 +24,60 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="100dp"
         android:gravity="center"
-        android:layout_marginTop="250dp">
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_left"
-            android:layout_marginEnd="50dp"/>
+            android:layout_marginEnd="50dp"
+            android:src="@drawable/ic_left" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_stop"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_stop_enabled"
-            tools:targetApi="lollipop" />
+            android:layout_height="wrap_content">
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_stop_enabled"
+                tools:targetApi="lollipop" />
+
+            <fr.DangerousTraveler.robotcontrol.JoystickView
+                android:id="@+id/joystick"
+                android:layout_width="143dp"
+                android:layout_height="187dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:JV_backgroundColor="@color/colorJoystickBackgroundDisabled"
+                app:JV_buttonColor="@color/colorJoystickButtonDisabled"
+                app:JV_enabled="false" />
+        </FrameLayout>
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_right"
-            android:layout_marginStart="50dp"/>
+            android:layout_marginStart="50dp"
+            android:src="@drawable/ic_right" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="290dp"
         android:gravity="center"
-        android:layout_marginTop="350dp">
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_down" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>

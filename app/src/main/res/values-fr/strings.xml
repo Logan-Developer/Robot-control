@@ -4,13 +4,11 @@
     <string name="settings_custom_file_path_title">Emplacement de fichier personnalisé</string>
     <string name="settings_file_name_title">Nom du fichier d\'étalonnage</string>
     <string name="settings_files_category">Fichier d\'étalonnage</string>
-    <string name="settings_time_each_step_title">Temps entre chaque étape de déplacement</string>
     <string name="settings_time_preferences">Temps</string>
     <string name="settings_travelling_time_title">Temps de déplacement</string>
-    <string name="speech">Dictée</string>
-    <string name="speech_dialog_title">Dites quelque-chose…</string>
-    <string name="toast_error_seech_recognisation_not_supported">Désolé ! La reconnaissance vocale n\'est pas supportée par votre appareil.</string>
-    <string name="use_custom_file_path_title">Utiliser un emplacement de fichier personnalisé ?</string>
+    <string name="use_custom_file_path_title">Choisir l\'emplacement du fichier ?</string>
     <string name="settings_calibration_switch_title">Stabiliser le véhicule ?</string>
     <string name="settings_calibration_title">Stabilisation du véhicule</string>
+    <string name="settings_control_joystick_title">Contrôler le robot avec un joystick ?</string>
+    <string name="settings_control_mode_category">Mode de contrôle</string>
 </resources>

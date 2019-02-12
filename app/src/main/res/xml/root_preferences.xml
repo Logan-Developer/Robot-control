@@ -37,13 +37,6 @@
             android:title="@string/settings_travelling_time_title"
             app:useSimpleSummaryProvider="true"/>
 
-        <EditTextPreference
-            android:defaultValue="2000"
-            android:key="settings_time_steps"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="@string/settings_time_each_step_title"
-            app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_calibration_title">
@@ -52,6 +45,13 @@
             android:defaultValue="true"
             android:key="switch_calibration_vehicle"
             android:title="@string/settings_calibration_switch_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_control_mode_category">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_control_mode"
+            android:title="@string/settings_control_joystick_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

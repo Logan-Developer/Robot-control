@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#304FFE</color>
     <color name="colorAccent">#D50000</color>
     <color name="colorBtConnected">#368F00</color>
+    <color name="colorJoystickBackgroundDisabled">#948F8F</color>
+    <color name="colorJoystickButtonDisabled">#3A3838</color>
 </resources>

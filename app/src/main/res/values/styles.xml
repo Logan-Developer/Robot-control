@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Style du backdrop -->
+    <style name="widget.DangerousTraveler.Backdrop" parent="">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
 </resources>

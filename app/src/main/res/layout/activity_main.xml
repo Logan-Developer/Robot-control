@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +8,26 @@
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        style="@style/widget.DangerousTraveler.Backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <include layout="@layout/backdrop" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <fragment
         android:id="@+id/fragment"
         android:name="fr.DangerousTraveler.robotcontrol.ControlFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_control" />
+        android:elevation="8dp"
+        android:layout_marginTop="56dp"
+        tools:layout="@layout/fragment_control"
+        tools:targetApi="lollipop" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -20,15 +35,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:navigationIcon="@drawable/ic_camera"
         app:fabAlignmentMode="center"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+
         android:id="@+id/fab_connect_bt"
+
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
+
         app:layout_anchor="@id/bottomAppBar"
+
         style="@style/Widget.MaterialComponents.FloatingActionButton"
+
         android:src="@drawable/ic_bt_disabled"
+
         android:onClick="onClicConnectBtn" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

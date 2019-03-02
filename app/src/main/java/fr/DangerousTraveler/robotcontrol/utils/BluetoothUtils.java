@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 
 import java.io.IOException;
 
+import fr.DangerousTraveler.robotcontrol.ControlFragment;
 import fr.DangerousTraveler.robotcontrol.activities.MainActivity;
 
 // classe contenant des méthodes permettant de gérer les connexions bluetooth

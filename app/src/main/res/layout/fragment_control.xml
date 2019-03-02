@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ControlFragment">
 
@@ -11,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="150dp">
+        android:layout_marginTop="10dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_up"
@@ -23,7 +24,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -52,8 +53,8 @@
                 android:layout_height="187dp"
                 android:layout_gravity="center"
                 android:visibility="visible"
-                app:JV_backgroundColor="@color/colorPrimary"
-                app:JV_buttonColor="@color/colorAccent"
+                app:JV_backgroundColor="@color/colorJoystickBackgroundDisabled"
+                app:JV_buttonColor="@color/colorJoystickButtonDisabled"
                 app:JV_enabled="false" />
         </FrameLayout>
         <androidx.appcompat.widget.AppCompatImageButton
@@ -68,7 +69,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="430dp"
+        android:layout_marginTop="290dp"
         android:gravity="center"
         android:orientation="horizontal">
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import fr.DangerousTraveler.robotcontrol.activities.MainActivity;
 import fr.DangerousTraveler.robotcontrol.utils.BluetoothUtils;
 import fr.DangerousTraveler.robotcontrol.utils.FilesUtils;
 
-public class ControlFragment extends Fragment implements View.OnClickListener {
+public class ControlFragment extends Fragment implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static ImageButton btn_up, btn_down, btn_left, btn_right, btn_stop;
 
@@ -178,7 +179,9 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                     // si la force exercée sur le joystick est égale à 0, dire au mobile de s'arrêter
                     if (strength == 0) {
 
-                        new stop().execute();
+                        // vérifier que l'ordre de s'arrêter n'a pas déjà été donné
+                        if (!command.equals("stop"))
+                            stop();
                     }
                 }
             });
@@ -195,39 +198,18 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
         // mettre les positions d'étalonnage des servoMoteurs dans une String
         calibrationServoPos = BluetoothUtils.initServoPos();
 
-        // gérer le changement des préférences utilisateur
-        MainActivity.sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-                // vérifier le changement du switch du mode de contrôle
-                if (key.equals("switch_control_mode")) {
-
-                    // vérifier si le mode de contrôle avec joystick est activé
-                    if (sharedPreferences.getBoolean(key, false)) {
-
-                        // afficher le joystick et cacher les boutons
-                        joystickView.setVisibility(View.VISIBLE);
-                        btn_up.setVisibility(View.INVISIBLE);
-                        btn_down.setVisibility(View.INVISIBLE);
-                        btn_left.setVisibility(View.INVISIBLE);
-                        btn_right.setVisibility(View.INVISIBLE);
-                        btn_stop.setVisibility(View.INVISIBLE);
-                    } else {
-
-                        // afficher les boutons et cacher le joystick
-                        joystickView.setVisibility(View.INVISIBLE);
-                        btn_up.setVisibility(View.VISIBLE);
-                        btn_down.setVisibility(View.VISIBLE);
-                        btn_left.setVisibility(View.VISIBLE);
-                        btn_right.setVisibility(View.VISIBLE);
-                        btn_stop.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
+        // enregistrer le changement des préférences
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // désenregistrer le changement des préférences
+        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     // méthode permettant de modifier la vitesse de déplacement du mobile en fonction de la force appliquée au joystick
@@ -357,9 +339,38 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
                 if (MainActivity.bluetoothConnected) {
 
                     // arrêter le robot
-                    new stop().execute();
+                    stop();
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        // vérifier le changement du switch du mode de contrôle
+        if (key.equals("switch_control_mode")) {
+
+            // vérifier si le mode de contrôle avec joystick est activé
+            if (sharedPreferences.getBoolean(key, false)) {
+
+                // afficher le joystick et cacher les boutons
+                joystickView.setVisibility(View.VISIBLE);
+                btn_up.setVisibility(View.INVISIBLE);
+                btn_down.setVisibility(View.INVISIBLE);
+                btn_left.setVisibility(View.INVISIBLE);
+                btn_right.setVisibility(View.INVISIBLE);
+                btn_stop.setVisibility(View.INVISIBLE);
+            } else {
+
+                // afficher les boutons et cacher le joystick
+                joystickView.setVisibility(View.INVISIBLE);
+                btn_up.setVisibility(View.VISIBLE);
+                btn_down.setVisibility(View.VISIBLE);
+                btn_left.setVisibility(View.VISIBLE);
+                btn_right.setVisibility(View.VISIBLE);
+                btn_stop.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -748,26 +759,16 @@ public class ControlFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    // inner class permettant d'arrêter le robot
-    public static class stop extends AsyncTask<Void, Void, Void> {
+    // méthode permettant d'arrêter le robot
+    private void stop() {
 
-        @Override
-        protected void onPreExecute() {
+        command = "stop";
 
-            command = "stop";
-
-            btn_up.setImageResource(R.drawable.ic_up);
-            btn_left.setImageResource(R.drawable.ic_left);
-            btn_right.setImageResource(R.drawable.ic_right);
-            btn_down.setImageResource(R.drawable.ic_down);
-            btn_stop.setImageResource(R.drawable.ic_stop_enabled);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            return null;
-        }
+        btn_up.setImageResource(R.drawable.ic_up);
+        btn_left.setImageResource(R.drawable.ic_left);
+        btn_right.setImageResource(R.drawable.ic_right);
+        btn_down.setImageResource(R.drawable.ic_down);
+        btn_stop.setImageResource(R.drawable.ic_stop_enabled);
     }
 
     // méthode permettant de stabiliser le véhicule

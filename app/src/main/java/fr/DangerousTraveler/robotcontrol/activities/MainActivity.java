@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton fabConnectBt;
 
+    public static boolean joystickControlModeEnabled = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +79,13 @@ public class MainActivity extends AppCompatActivity {
             externalStrorageReadAccess();
         }
 
-        // afficher le menu sur la bottomAppBar
+        fabConnectBt = findViewById(R.id.fab_connect_bt);
+
+        // afficher le menu sur l'appBar
         appBar = findViewById(R.id.bottomAppBar);
         appBar.inflateMenu(R.menu.main_menu);
+
+        // gérer le click sur les éléments du menu
         appBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 
             // gérer le click sur les éléments du menu
@@ -87,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
 
+                    // accès à l'écran de paramètres
                     case R.id.settings:
 
                         // démarrer la settingsActivity
@@ -99,7 +107,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fabConnectBt = findViewById(R.id.fab_connect_bt);
+        // gérer l'ouverture et la fermeture du backdrop
+        appBar.setNavigationOnClickListener(new NavigationIconClickListener(
+                this,
+                findViewById(R.id.fragment),
+                new AccelerateDecelerateInterpolator(),
+                this.getResources().getDrawable(R.drawable.ic_camera),   // icône d'ouverture du backdrop
+                this.getResources().getDrawable(R.drawable.ic_close)));  // icône de fermeture du backdrop
+
+        // afficher la shape arrondie si l'API est de 23 ou +
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            findViewById(R.id.fragment).setBackground(getApplicationContext().getDrawable(R.drawable.backdrop_shape));
+        }
     }
 
     // méthode permettant d'activer le bluetooth s'il est désactivé
@@ -154,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
 
             // désactiver le joystick
             ControlFragment.joystickView.setEnabled(false);
+            ControlFragment.joystickView.setBackgroundColor(getResources().getColor(R.color.colorJoystickBackgroundDisabled));
+            ControlFragment.joystickView.setButtonColor(R.color.colorJoystickButtonDisabled);
+            joystickControlModeEnabled = false;
         }
     }
 
@@ -196,11 +219,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            // essayer d'établir la connexion avec l'appareil distant
-            try {
+            // effectuer l'opération si l'appareil n'est pas déjà connecté
+            if (bluetoothSocket == null || !bluetoothConnected) {
 
-                // effectuer l'opération si l'appareil n'est pas déjà connecté
-                if (bluetoothSocket == null || bluetoothConnected) {
+                // essayer d'établir la connexion avec l'appareil distant
+                try {
 
                     // se connecter à l'appareil grâce à son adresse MAC
                     BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
@@ -211,10 +234,13 @@ public class MainActivity extends AppCompatActivity {
                     // démarrer la connexion
                     BluetoothAdapter.getDefaultAdapter().cancelDiscovery();
                     bluetoothSocket.connect();
-                }
-            } catch (IOException ex) {
 
-                connectSuccess = false;
+                    bluetoothConnected = true;
+
+                } catch (IOException ex) {
+
+                    connectSuccess = false;
+                }
             }
             return null;
         }
@@ -232,20 +258,24 @@ public class MainActivity extends AppCompatActivity {
             // sinon informer l'utilisateur que la connexion s'est effectuée avec succès
             else {
 
-                Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
-                bluetoothConnected = true;
+                    Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+                    bluetoothConnected = true;
 
-                fabConnectBt.setBackgroundTintList(getResources().getColorStateList(R.color.colorBtConnected));
-                fabConnectBt.setImageResource(R.drawable.ic_bt_connected);
+                    fabConnectBt.setBackgroundTintList(getResources().getColorStateList(R.color.colorBtConnected));
+                    fabConnectBt.setImageResource(R.drawable.ic_bt_connected);
 
-                // mettre les positions d'étalonnage des servoMoteurs dans une String
-                String calibrationServoPos = BluetoothUtils.initServoPos();
+                    // mettre les positions d'étalonnage des servoMoteurs dans une String
+                    String calibrationServoPos = BluetoothUtils.initServoPos();
 
-                // remettre les servoMoteurs à leur position d'étalonnage
-                BluetoothUtils.sendDataViaBluetooth(calibrationServoPos);
+                    // remettre les servoMoteurs à leur position d'étalonnage
+                    BluetoothUtils.sendDataViaBluetooth(calibrationServoPos);
 
-                // activer le joystick
-                ControlFragment.joystickView.setEnabled(true);
+                    // activer le joystick
+                    ControlFragment.joystickView.setEnabled(true);
+                    ControlFragment.joystickView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    ControlFragment.joystickView.setButtonColor(R.color.colorAccent);
+                    joystickControlModeEnabled = true;
+
             }
         }
 

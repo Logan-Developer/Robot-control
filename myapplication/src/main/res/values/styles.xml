@@ -1,0 +1,46 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Thème foncé de l'application -->
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryDarkMode</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_DarkMode</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Thème des paramètres -->
+    <style name="SettingsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Thème foncé pour les paramètres -->
+    <style name="SettingsThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:textColor">#fff</item>
+        <item name="android:textColorSecondary">@color/colorPrimaryDarkMode</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="alertDialogTheme">@style/alertDialogDark</item>
+    </style>
+
+    <!-- Thème foncé pour l'écran de choix du bluetooth -->
+    <style name="bluetoothScreenThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:textColor">#fff</item>
+    </style>
+    <!-- Thème foncé des alertDialog-->
+    <style name="alertDialogDark" parent="Theme.AppCompat.Dialog.Alert">
+        
+        <item name="android:background">@color/colorPrimaryDarkMode</item>
+    </style>
+</resources>

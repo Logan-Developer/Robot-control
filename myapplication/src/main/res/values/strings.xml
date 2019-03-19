@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name" translatable="false">Dangerous Traveler</string>
+
+    <string name="settings">Settings</string>
+    <string name="settings_files_category">Calibration file</string>
+    <string name="settings_file_name_title">Calibration file name</string>
+    <string name="use_custom_file_path_title">Use custom file path ?</string>
+    <string name="switch_default_file_path_key" translatable="false">switch_default_file_path</string>
+    <string name="settings_custom_file_path_title">Custom file path</string>
+    <string name="settings_time_preferences">Time</string>
+    <string name="settings_travelling_time_title">Travelling time</string>
+    <string name="settings_calibration_title">Calibration of the vehicle</string>
+    <string name="settings_calibration_switch_title">Calibrate the vehicle ?</string>
+    <string name="settings_control_mode_category">Control mode</string>
+    <string name="settings_control_joystick_title">Activate joystick control mode ?</string>
+    <string name="change_theme_action">Change the theme</string>
+</resources>

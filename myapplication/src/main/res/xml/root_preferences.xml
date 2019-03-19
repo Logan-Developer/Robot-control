@@ -1,0 +1,70 @@
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <PreferenceCategory android:title="@string/settings_files_category">
+
+        <EditTextPreference
+                android:defaultValue="hexapod"
+                android:key="file_name"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/settings_file_name_title"
+                app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/switch_default_file_path_key"
+            android:title="@string/use_custom_file_path_title" />
+
+        <EditTextPreference
+            android:defaultValue="/sdcard/Documents/AppInventor/assets/"
+            android:dependency="@string/switch_default_file_path_key"
+            android:key="settings_custom_file_path"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_custom_file_path_title"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_time_preferences">
+
+        <EditTextPreference
+            android:defaultValue="2000"
+            android:key="settings_travelling_time"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_travelling_time_title"
+            app:useSimpleSummaryProvider="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_calibration_title">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch_calibration_vehicle"
+            android:title="@string/settings_calibration_switch_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/settings_control_mode_category">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_control_mode"
+            android:title="@string/settings_control_joystick_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Debug stabilisation">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="switch_stabilisation_x"
+            android:title="X stabilisation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_stabilisation_y"
+            android:title="Y stabilisation" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

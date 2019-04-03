@@ -36,6 +36,7 @@ import fr.DangerousTraveler.robotcontrol.utils.StabilisationUtils;
 
 public class MainActivity extends AppCompatActivity {
 
+
     // adresse MAC de l'appareil auquel se connecter
     private String address;
 
@@ -192,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
                     new AccelerateDecelerateInterpolator(),
                     this.getResources().getDrawable(R.drawable.ic_camera),   // icône d'ouverture du backdrop
                     this.getResources().getDrawable(R.drawable.ic_close)));  // icône de fermeture du backdrop
-
         }
     }
 

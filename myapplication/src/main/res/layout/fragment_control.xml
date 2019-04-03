@@ -4,8 +4,10 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backdrop_shape"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ControlFragment">
+    tools:context=".ControlFragment"
+    tools:targetApi="lollipop">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -94,7 +96,7 @@
             android:layout_height="wrap_content"
             android:text="X: "
             android:textSize="40sp"
-            android:textColor="#000"/>
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/tv_accY"
@@ -102,7 +104,7 @@
             android:layout_height="wrap_content"
             android:text="Y: "
             android:textSize="40sp"
-            android:textColor="#000"/>
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/tv_accZ"
@@ -110,6 +112,6 @@
             android:layout_height="wrap_content"
             android:text="Z: "
             android:textSize="40sp"
-            android:textColor="#000"/>
+            android:textColor="#000" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>

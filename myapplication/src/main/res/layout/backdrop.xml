@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<TextView android:layout_width="match_parent"
-		android:layout_height="56dp"
-		style="@style/TextAppearance.MaterialComponents.Headline6"
-		android:text="@string/app_name"
-		android:gravity="center"
-		android:textSize="20sp"
-		android:textColor="#fff"/>
+    <TextView android:layout_width="match_parent"
+        android:layout_height="56dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:text="@string/app_name"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"/>
 
-	<TextView
-		android:text="test backdrop"
-		android:layout_width="250dp"
-		android:layout_height="150dp"
-		android:background="@color/colorAccent" />
+    <fragment android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:name="fr.DangerousTraveler.robotcontrol.CameraFragment"
+        android:layout_gravity="center_horizontal"
+        tools:layout="@layout/fragment_camera" />
 </merge>

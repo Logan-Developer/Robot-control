@@ -14,4 +14,9 @@
     <!-- couleurs pour le backdrop -->
     <color name="colorBackdrop">#0091EA</color>
     <color name="colorDarkBackdrop">#000</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <!-- Couleur transparente -->
+    <color name="transparent">@android:color/transparent</color>
 </resources>

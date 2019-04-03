@@ -11,4 +11,14 @@
     <string name="settings_calibration_title">Stabilisation du véhicule</string>
     <string name="settings_control_joystick_title">Contrôler le robot avec un joystick ?</string>
     <string name="settings_control_mode_category">Mode de contrôle</string>
+    <string name="camera_header">Caméra</string>
+    <string name="change_theme_action">Changer de thème</string>
+    <string name="error_msg_no_internet_connection">Aucune connexion internet, veuillez réessayer plus tard</string>
+    <string name="general_header">Général</string>
+    <string name="quit_preview_screen_btn">QUitter l\'écran de prévisualisation</string>
+    <string name="settings_streaming_resolution_title">résolution de la vidéo</string>
+    <string name="settings_streaming_bitrate_title">débit pour la diffusion</string>
+    <string name="settings_udp_adress_title">adresse udp pour la diffusion</string>
+    <string name="settings_url_to_send_title">url à envoyer</string>
+    <string name="settings_video_scale_title">taille de la fenêtre de vidéo</string>
 </resources>

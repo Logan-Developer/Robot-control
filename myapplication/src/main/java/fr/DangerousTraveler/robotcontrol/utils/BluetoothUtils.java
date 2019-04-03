@@ -114,7 +114,6 @@ public class BluetoothUtils {
     public static void initialiseAnalogInputs() {
 
         sendDataViaBluetooth("VF\r");
-        sendDataViaBluetooth("VG\r");
         sendDataViaBluetooth("VH\r");
     }
 }

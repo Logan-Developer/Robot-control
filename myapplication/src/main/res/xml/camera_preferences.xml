@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="debug">
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="1"
+            android:key="video_scale_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_video_scale_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="udp://@:8554"
+            android:key="udp_stream_adress_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_udp_adress_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            android:title="Send a URL"
+            android:key="send_url_switch_key"
+            android:defaultValue="true" />
+
+        <androidx.preference.EditTextPreference
+            android:defaultValue="http://10.5.5.9/gp/gpControl/execute?p1=gpStream&amp;a1=proto_v2&amp;c1=restart"
+            android:key="url_to_send_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/settings_url_to_send_title"
+            app:dependency="send_url_switch_key"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_streaming_category">
+
+        <ListPreference
+            android:key="streaming_bitrate_key"
+            android:title="@string/settings_streaming_bitrate_title"
+            app:entries="@array/settings_streaming_bitrate_entries"
+            app:entryValues="@array/settings_streaming_bitrate_values"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="streaming_resolution_key"
+            android:title="@string/settings_streaming_resolution_title"
+            app:entries="@array/settings_streaming_resolution_entries"
+            app:entryValues="@array/settings_streaming_resolution_values"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_video_recording_category" >
+
+        <ListPreference
+            android:key="video_resolution_key"
+            android:title="@string/settings_video_resolution_title"
+            app:entries="@array/settings_video_resolution_entries"
+            app:entryValues="@array/settings_video_resolution_values"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:key="video_frame_rate_key"
+            android:title="@string/settings_video_frame_rate_title"
+            app:entries="@array/settings_video_frame_rate_entries"
+            app:entryValues="@array/settings_video_frame_rate_values"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

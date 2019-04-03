@@ -1,0 +1,93 @@
+<resources>
+    <!-- streaming bitrate preference -->
+    <string-array name="settings_streaming_bitrate_entries">
+        <item>250 Kbps</item>
+        <item>400 Kbps</item>
+        <item>600 Kbps</item>
+        <item>700 Kbps</item>
+        <item>800 Kbps</item>
+        <item>1 Mbps</item>
+        <item>1.2 Mbps</item>
+        <item>1.6 Mbps</item>
+        <item>2 Mbps</item>
+        <item>2.4 Mbps</item>
+    </string-array>
+
+    <string-array name="settings_streaming_bitrate_values">
+        <item>http://10.5.5.9/gp/gpControl/setting/62/250000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/400000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/600000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/700000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/800000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/1000000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/1200000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/1600000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/2000000</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/62/2400000</item>
+    </string-array>
+
+    <!-- streaming resolution preference -->
+    <string-array name="settings_streaming_resolution_entries">
+        <item>Default</item>
+        <item>240p</item>
+        <item>480p</item>
+        <item>720p</item>
+    </string-array>
+
+    <string-array name="settings_streaming_resolution_values">
+        <item>http://10.5.5.9/gp/gpControl/setting/64/0</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/64/1</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/64/4</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/64/7</item>
+    </string-array>
+
+    <!-- video resolution preference -->
+    <string-array name="settings_video_resolution_entries">
+        <item>4K</item>
+        <item>4K 4:3</item>
+        <item>2.7K</item>
+        <item>2.7K 4:3</item>
+        <item>1440p</item>
+        <item>1080p</item>
+        <item>960p</item>
+        <item>720p</item>
+    </string-array>
+
+    <string-array name="settings_video_resolution_values">
+        <item>http://10.5.5.9/gp/gpControl/setting/2/1</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/18</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/4</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/3</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/7</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/9</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/10</item>
+        <item>http://10.5.5.9/gp/gpControl/setting/2/12</item>
+    </string-array>
+
+    <!-- video frame rate preference -->
+    <string-array name="settings_video_frame_rate_entries">
+        <item>240fps</item>
+        <item>120fps</item>
+        <item>100fps</item>
+        <item>90fps</item>
+        <item>80fps</item>
+        <item>60fps</item>
+        <item>50fps</item>
+        <item>48fps</item>
+        <item>30fps</item>
+        <item>25fps</item>
+    </string-array>
+
+    <string-array name="settings_video_frame_rate_values">
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/0</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/1</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/2</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/3</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/4</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/5</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/6</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/7</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/8</item>
+        <item>	http://10.5.5.9/gp/gpControl/setting/3/9</item>
+    </string-array>
+</resources>

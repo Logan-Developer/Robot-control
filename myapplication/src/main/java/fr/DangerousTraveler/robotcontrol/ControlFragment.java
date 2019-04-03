@@ -222,6 +222,14 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
         // enregistrer le changement des préférences
         PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
 
+        // activer le joystick si l'appareil est connecté au robot en bluetooth
+        if (MainActivity.bluetoothConnected) {
+
+            joystickView.setEnabled(true);
+            joystickView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            joystickView.setButtonColor(R.color.colorAccent);
+        }
+
         return rootView;
     }
 
@@ -510,9 +518,9 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                     e.printStackTrace();
                 }
 
-                // récupérer la valeurs des axes x et y de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VF\r");
-                publishProgress("VF");
+                // récupérer la valeur des axes x et y de l'accéléromètre
+                BluetoothUtils.sendDataViaBluetooth("VH\r");
+                publishProgress("VH");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -520,8 +528,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                     e.printStackTrace();
                 }
 
-                BluetoothUtils.sendDataViaBluetooth("VG\r");
-                publishProgress("VG");
+                BluetoothUtils.sendDataViaBluetooth("VF\r");
+                publishProgress("VF");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -542,12 +550,12 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
 
             switch (pin[0]) {
 
-                case "VF":
+                case "VH":
                     xFinal = xString + data;
                     tvAccX.setText(xFinal);
                     break;
 
-                case "VG":
+                case "VF":
                     yFinal = yString + data;
                     tvAccY.setText(yFinal);
                     break;
@@ -650,8 +658,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                 }
 
                 // récupérer la valeur des axes x et y de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VF\r");
-                publishProgress("VF");
+                BluetoothUtils.sendDataViaBluetooth("VH\r");
+                publishProgress("VH");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -659,8 +667,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                     e.printStackTrace();
                 }
 
-                BluetoothUtils.sendDataViaBluetooth("VG\r");
-                publishProgress("VG");
+                BluetoothUtils.sendDataViaBluetooth("VF\r");
+                publishProgress("VF");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -676,17 +684,17 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
         protected void onProgressUpdate(String... pin) {
             super.onProgressUpdate(pin);
 
-            // afficher la valeur des axes de l'accéléromètre dans une textView
+            // afficher la valeur des axes x et y de l'accéléromètre dans une textView
             int data = BluetoothUtils.getDataFromBluetooth();
 
             switch (pin[0]) {
 
-                case "VF":
+                case "VH":
                     xFinal = xString + data;
                     tvAccX.setText(xFinal);
                     break;
 
-                case "VG":
+                case "VF":
                     yFinal = yString + data;
                     tvAccY.setText(yFinal);
                     break;
@@ -789,8 +797,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                 }
 
                 // récupérer la valeur des axes x et y de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VF\r");
-                publishProgress("VF");
+                BluetoothUtils.sendDataViaBluetooth("VH\r");
+                publishProgress("VH");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -798,8 +806,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                     e.printStackTrace();
                 }
 
-                BluetoothUtils.sendDataViaBluetooth("VG\r");
-                publishProgress("VG");
+                BluetoothUtils.sendDataViaBluetooth("VF\r");
+                publishProgress("VF");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -820,12 +828,12 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
 
             switch (pin[0]) {
 
-                case "VF":
+                case "VH":
                     xFinal = xString + data;
                     tvAccX.setText(xFinal);
                     break;
 
-                case "VG":
+                case "VF":
                     yFinal = yString + data;
                     tvAccY.setText(yFinal);
                     break;
@@ -928,8 +936,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                 }
 
                 // récupérer la valeur des axes x et y de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VF\r");
-                publishProgress("VF");
+                BluetoothUtils.sendDataViaBluetooth("VH\r");
+                publishProgress("VH");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -937,8 +945,8 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
                     e.printStackTrace();
                 }
 
-                BluetoothUtils.sendDataViaBluetooth("VG\r");
-                publishProgress("VG");
+                BluetoothUtils.sendDataViaBluetooth("VF\r");
+                publishProgress("VF");
 
                 try {
                     Thread.sleep(travellingTime);
@@ -959,12 +967,12 @@ public class ControlFragment extends Fragment implements View.OnClickListener, S
 
             switch (pin[0]) {
 
-                case "VF":
+                case "VH":
                     xFinal = xString + data;
                     tvAccX.setText(xFinal);
                     break;
 
-                case "VG":
+                case "VF":
                     yFinal = yString + data;
                     tvAccY.setText(yFinal);
                     break;

@@ -30,7 +30,6 @@
         <item name="android:textColor">#fff</item>
         <item name="android:textColorSecondary">@color/colorPrimaryDarkMode</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="alertDialogTheme">@style/alertDialogDark</item>
     </style>
 
     <!-- Thème foncé pour l'écran de choix du bluetooth -->
@@ -38,9 +37,23 @@
 
         <item name="android:textColor">#fff</item>
     </style>
+
     <!-- Thème foncé des alertDialog-->
     <style name="alertDialogDark" parent="Theme.AppCompat.Dialog.Alert">
-        
+
         <item name="android:background">@color/colorPrimaryDarkMode</item>
+    </style>
+
+    <!-- Thème du mode plein écran-->
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 </resources>

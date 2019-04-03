@@ -19,18 +19,27 @@ public class StabilisationUtils {
         int travellingTime = Integer.parseInt(Objects.requireNonNull(MainActivity.sharedPreferences.getString("settings_travelling_time", "2000")));
 
         // récupérer la valeure de l'axe X de l'accéléromètre
-        BluetoothUtils.sendDataViaBluetooth("VF\r");
-        int accX = BluetoothUtils.getDataFromBluetooth();
+        BluetoothUtils.sendDataViaBluetooth("VH\r");
 
-        // attendre 10 millisecondes avant de récupérer d'autres données
+        // attendre avant de récupérer les données
         try {
-            Thread.sleep(10);
+            Thread.sleep(travellingTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        int accX = BluetoothUtils.getDataFromBluetooth();
+
         // récupérer la valeure de l'axe Y de l'accéléromètre
-        BluetoothUtils.sendDataViaBluetooth("VG\r");
+        BluetoothUtils.sendDataViaBluetooth("VF\r");
+
+        // attendre avant de récupérer les données
+        try {
+            Thread.sleep(travellingTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         int accY = BluetoothUtils.getDataFromBluetooth();
 
         // récupérer les positions d'étalonnage des servomoteurs
@@ -57,19 +66,17 @@ public class StabilisationUtils {
                         + "T" + travellingTime + "\r");
 
                 // récupérer à nouveau la valeure de l'axe X de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VF\r");
-                accX = BluetoothUtils.getDataFromBluetooth();
+                BluetoothUtils.sendDataViaBluetooth("VH\r");
 
-                // attendre avant de renvoyer de nouvelles informations
+                // attendre avant de récupérer les données
                 try {
                     Thread.sleep(travellingTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
 
-            // remettre à zéro les positions d'étalonnage des servomoteurs
-            servoPosEtalon = FilesUtils.readServoPosFromTxt();
+                accX = BluetoothUtils.getDataFromBluetooth();
+            }
 
             /* Tant que la valeure de l'axe X est plus petite que celle de l'étalon
              *  redresser le robot */
@@ -89,15 +96,16 @@ public class StabilisationUtils {
                         + "T" + travellingTime + "\r");
 
                 // récupérer à nouveau la valeure de l'axe X de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VF\r");
-                accX = BluetoothUtils.getDataFromBluetooth();
+                BluetoothUtils.sendDataViaBluetooth("VH\r");
 
-                // attendre avant de renvoyer de nouvelles informations
+                // attendre avant de récupérer les données
                 try {
                     Thread.sleep(travellingTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                accX = BluetoothUtils.getDataFromBluetooth();
             }
         }
 
@@ -125,19 +133,17 @@ public class StabilisationUtils {
                         + "T" + travellingTime + "\r");
 
                 // récupérer à nouveau la valeure de l'axe Y de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VG\r");
-                accY = BluetoothUtils.getDataFromBluetooth();
+                BluetoothUtils.sendDataViaBluetooth("VF\r");
 
-                // attendre avant de renvoyer de nouvelles informations
+                // attendre avant de récupérer les données
                 try {
                     Thread.sleep(travellingTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
 
-            // récupérer les positions d'étalonnage des servomoteurs
-            servoPosEtalon = FilesUtils.readServoPosFromTxt();
+                accY = BluetoothUtils.getDataFromBluetooth();
+            }
 
             /* Tant que la valeure de l'axe Y est plus petite que celle de l'étalon
              *  redresser le robot */
@@ -157,15 +163,16 @@ public class StabilisationUtils {
                         + "T" + travellingTime + "\r");
 
                 // récupérer à nouveau la valeure de l'axe Y de l'accéléromètre
-                BluetoothUtils.sendDataViaBluetooth("VG\r");
-                accY = BluetoothUtils.getDataFromBluetooth();
+                BluetoothUtils.sendDataViaBluetooth("VF\r");
 
-                // attendre avant de renvoyer de nouvelles informations
+                // attendre avant de récupérer les données
                 try {
                     Thread.sleep(travellingTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                accY = BluetoothUtils.getDataFromBluetooth();
             }
         }
     }

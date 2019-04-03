@@ -40,19 +40,14 @@
         app:fabAlignmentMode="center"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-
         android:id="@+id/fab_connect_bt"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
-
-        app:layout_anchor="@id/bottomAppBar"
-
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-
         android:src="@drawable/ic_bt_disabled"
-
-        android:onClick="onClicConnectBtn" />
+        android:onClick="onClicConnectBtn"
+        app:tint="#fff"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_anchor="@id/bottomAppBar"
+        style="@style/Widget.MaterialComponents.FloatingActionButton" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

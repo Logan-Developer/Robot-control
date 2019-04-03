@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+import fr.DangerousTraveler.robotcontrol.CameraFragment;
 import fr.DangerousTraveler.robotcontrol.R;
 
 /**
@@ -25,7 +26,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
     private View sheet;
     private Interpolator interpolator;
     private int height;
-    private boolean backdropShown = false;
+    public static boolean backdropShown = false;
     private Drawable openIcon;
     private Drawable closeIcon;
 
@@ -81,8 +82,14 @@ public class NavigationIconClickListener implements View.OnClickListener {
             }
             if (backdropShown) {
                 ((ImageView) view).setImageDrawable(closeIcon);
+
+                // arrêter le lecteur vidéo
+                CameraFragment.releasePlayer(context);
             } else {
                 ((ImageView) view).setImageDrawable(openIcon);
+
+                // lancer le lecteur vidéo
+                CameraFragment.launchStream(context, CameraFragment.mSurfaceView);
             }
         }
     }

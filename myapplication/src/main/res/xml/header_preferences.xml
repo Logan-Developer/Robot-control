@@ -1,0 +1,15 @@
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:fragment="fr.DangerousTraveler.robotcontrol.activities.SettingsActivity$GeneralFragment"
+        app:icon="@drawable/ic_close"
+        app:key="general_header_key"
+        app:title="@string/general_header" />
+
+    <Preference
+        app:fragment="fr.DangerousTraveler.robotcontrol.activities.SettingsActivity$CameraFragment"
+        app:icon="@drawable/ic_camera"
+        app:key="camera_header_key"
+        app:title="@string/camera_header" />
+
+</androidx.preference.PreferenceScreen>

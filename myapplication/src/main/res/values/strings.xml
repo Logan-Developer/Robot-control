@@ -14,4 +14,20 @@
     <string name="settings_control_mode_category">Control mode</string>
     <string name="settings_control_joystick_title">Activate joystick control mode ?</string>
     <string name="change_theme_action">Change the theme</string>
+
+    <!-- Titres des préférences -->
+    <string name="general_header">General</string>
+    <string name="camera_header">Camera</string>
+    <string name="settings_video_scale_title">Video scale</string>
+    <string name="settings_udp_adress_title">UDP streaming address</string>
+    <string name="settings_url_to_send_title">URL to send</string>
+    <string name="error_msg_no_internet_connection">No internet connection, please retry later</string>
+    <string name="settings_streaming_bitrate_title">streaming bitrate</string>
+    <string name="settings_streaming_resolution_title">sreaming resolution</string>
+    <string name="quit_preview_screen_btn">Quit preview screen</string>
+    <string name="settings_streaming_category">streaming</string>
+    <string name="settings_video_recording_category">Video recording</string>
+    <string name="settings_video_resolution_title">Video resolution</string>
+    <string name="settings_video_frame_rate_title">Video frame rate</string>
+
 </resources>
